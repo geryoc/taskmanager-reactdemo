@@ -1,3 +1,5 @@
+import React from 'react';
+
 function TaskForm() {
   return (
     <div className="card mt-3">
@@ -6,13 +8,9 @@ function TaskForm() {
         <form className="mt-4">
           <div className="form-group">
             <div className="input-group">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Insert task text here."
-              />
+              <input className="form-control" type="text" placeholder="Insert task text here." />
               <div className="input-group-append">
-                <button className="btn btn-success"> Create </button>
+                <button className="btn btn-success" type="button"> Create </button>
               </div>
             </div>
           </div>
