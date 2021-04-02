@@ -1,4 +1,7 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
+import eventManager from '../events/EventManager';
+import TaskCreatedEvent from '../events/task/TaskCreatedEvent';
 
 class TaskForm extends React.Component {
   constructor(params) {
@@ -15,7 +18,9 @@ class TaskForm extends React.Component {
 
   handleSubmit(event) {
     const { task } = this.state;
-    alert(`Submit Task: ${task.description}`);
+    const newTask = { id: uuid(), description: task.description };
+    eventManager.publish(new TaskCreatedEvent(newTask));
+    this.setState({ task: { description: '' } });
     event.preventDefault();
   }
 
