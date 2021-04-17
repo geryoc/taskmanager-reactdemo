@@ -1,13 +1,11 @@
 import React from 'react';
-import { v4 as uuid } from 'uuid';
-import eventManager from '../events/EventManager';
-import TaskCreatedEvent from '../events/task/TaskCreatedEvent';
 
 class TaskForm extends React.Component {
-  constructor(params) {
-    super(params);
+  constructor(props) {
+    super(props);
+
     this.state = {
-      task: {
+      taskForm: {
         description: '',
       },
     };
@@ -17,19 +15,23 @@ class TaskForm extends React.Component {
   }
 
   handleSubmit(event) {
-    const { task } = this.state;
-    const newTask = { id: uuid(), description: task.description };
-    eventManager.publish(new TaskCreatedEvent(newTask));
-    this.setState({ task: { description: '' } });
     event.preventDefault();
+
+    const { taskForm } = this.state;
+    const { onCreateTask } = this.props;
+
+    onCreateTask(taskForm);
+
+    this.setState({ taskForm: { description: '' } });
   }
 
   handleChangeDescription(event) {
-    this.setState({ task: { description: event.target.value } });
+    event.preventDefault();
+    this.setState({ taskForm: { description: event.target.value } });
   }
 
   render() {
-    const { task } = this.state;
+    const { taskForm } = this.state;
     return (
       <div className="card mt-3">
         <div className="card-body">
@@ -41,7 +43,7 @@ class TaskForm extends React.Component {
                   className="form-control"
                   type="text"
                   placeholder="Insert task text here."
-                  value={task.description}
+                  value={taskForm.description}
                   onChange={this.handleChangeDescription}
                 />
 
